@@ -1,14 +1,14 @@
+import re
+
 from jira import JIRA
 from slackbot.bot import listen_to
 from slackbot import settings
 
 
-@listen_to('(.*\-\d+)')
+@listen_to('((?:pe|pf)\-\d+)', re.IGNORECASE)
 def response_issue(message, issue_id=None):
     project, issue_no = issue_id.split('-')
-    if project.lower() not in ['pf', 'pe']:
-        return
-
+    
     if project.upper() not in settings.ALLOWED_PROJECTS:
         return
 
